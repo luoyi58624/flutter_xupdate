@@ -82,11 +82,10 @@ class _MyAppState extends State<MyApp> {
 //        return customParseJson(json);
 //      });
 
-      FlutterXUpdate.setUpdateHandler(
-          onUpdateError: (Map<String, dynamic> message) async {
+      FlutterXUpdate.setUpdateHandler(onUpdateError: (message) async {
         print(message);
         //下载失败
-        if (message["code"] == 4000) {
+        if (message?["code"] == 4000) {
           FlutterXUpdate.showRetryUpdateTipDialog(
               retryContent: 'Github被墙无法继续下载，是否考虑切换蒲公英下载？',
               retryUrl: 'https://www.pgyer.com/flutter_learn');
@@ -94,9 +93,9 @@ class _MyAppState extends State<MyApp> {
         setState(() {
           _message = '$message';
         });
-      }, onUpdateParse: (String json) async {
+      }, onUpdateParse: (String? json) {
         //这里是自定义json解析
-        return customParseJson(json);
+        return customParseJson(json ?? '');
       });
     } else {
       updateMessage('ios暂不支持XUpdate更新');
